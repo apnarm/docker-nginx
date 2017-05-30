@@ -87,21 +87,6 @@ teardown() {
   [[ "$output" =~ "@aptiblestatus" ]]
 }
 
-@test "It should accept a list of UPSTREAM_SERVERS" {
-  simulate_upstream
-  UPSTREAM_SERVERS=localhost:4000 wait_for_nginx
-  run curl localhost 2>/dev/null
-  [[ "$output" =~ "Hello World!" ]]
-}
-
-@test "It should accept a list of UPSTREAM_SERVERS (Proxy Protocol)" {
-  simulate_upstream
-  PROXY_PROTOCOL=true UPSTREAM_SERVERS=localhost:4000 wait_for_nginx
-  wait_for_proxy_protocol
-  run curl localhost:8080 2>/dev/null
-  [[ "$output" =~ "Hello World!" ]]
-}
-
 @test "It should handle HTTPS over Proxy Protocol" {
   simulate_upstream
   PROXY_PROTOCOL=true UPSTREAM_SERVERS=localhost:4000 wait_for_nginx
